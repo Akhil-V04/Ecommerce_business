@@ -217,7 +217,7 @@ export default function App() {
                     <div className="hero-feature-icon">🏪</div>
                     <div>
                       <div>Store Pick-up</div>
-                      <span style={{ fontSize: '11.5px', color: '#777', fontWeight: 400 }}>General Bazaar, Secunderabad</span>
+                      <span style={{ fontSize: '11.5px', color: '#777', fontWeight: 400 }}>Lalapet, Secunderabad</span>
                     </div>
                   </div>
 

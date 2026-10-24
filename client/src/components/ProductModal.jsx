@@ -221,7 +221,7 @@ export default function ProductModal({
                   <Store size={16} style={{ color: '#b8860b' }} />
                   <div>
                     <strong>Store Pick-up</strong>
-                    <div style={{ color: '#777' }}>General Bazaar, Secunderabad</div>
+                    <div style={{ color: '#777' }}>Lalapet, Secunderabad</div>
                   </div>
                 </div>
               </div>

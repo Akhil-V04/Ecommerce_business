@@ -74,9 +74,9 @@ class DatabaseAdapter {
         settings: {
           storeName: "Srinivasa Silks",
           tagline: "Authentic Kanchipuram Sarees, Pure Silks, Linings & Petticoats",
-          phone: "+91 98490 12345",
-          altPhone: "+91 94400 54321",
-          storeAddress: "Shop #14, Royal Silk Complex, General Bazaar, Secunderabad, Hyderabad - 500003",
+          phone: "+91 70133 11862",
+          upiId: "7013311862@ybl",
+          storeAddress: "Srinivasa Silks, Lalapet, Secunderabad, Hyderabad - 500017",
           deliveryNote: "We deliver across Hyderabad only via Porter / Rapido. Delivery fare charged as per app.",
           adminPasscode: "admin123"
         }

@@ -246,7 +246,7 @@ Please confirm my order and share dispatch timing!`;
                   <div>
                     <strong>Fulfillment:</strong>{' '}
                     {placedOrder.fulfillmentType === 'store_pickup' ? (
-                      <span style={{ color: '#1f7a3f', fontWeight: 600 }}>🏪 Store Pick-up at General Bazaar, Secunderabad</span>
+                      <span style={{ color: '#1f7a3f', fontWeight: 600 }}>🏪 Store Pick-up at Lalapet, Secunderabad</span>
                     ) : (
                       <span style={{ color: '#8a1528', fontWeight: 600 }}>🛵 Doorstep Delivery in Hyderabad via Rapido / Porter</span>
                     )}
@@ -269,7 +269,7 @@ Please confirm my order and share dispatch timing!`;
                 </div>
               ) : (
                 <div style={{ background: '#eef8f2', border: '1px solid #c8e6c9', borderRadius: '10px', padding: '12px 16px', fontSize: '13px', color: '#1b5e20', marginBottom: '20px', textAlign: 'left' }}>
-                  <strong>🏪 Showroom Pickup Address:</strong> Shop #14, Royal Silk Complex, General Bazaar, Secunderabad, Hyderabad - 500003. Timings: 10:30 AM to 9:30 PM.
+                  <strong>🏪 Showroom Pickup Address:</strong> Srinivasa Silks Showroom, Lalapet, Secunderabad, Hyderabad - 500017. Timings: 10:30 AM to 9:30 PM.
                 </div>
               )}
 
