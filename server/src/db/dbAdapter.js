@@ -302,8 +302,9 @@ class DatabaseAdapter {
       subtotal: Number(orderInput.subtotal) || 0,
       deliveryFee: Number(orderInput.deliveryFee) || 0,
       totalAmount: Number(orderInput.totalAmount) || 0,
-      paymentMethod: orderInput.paymentMethod || 'pay_on_delivery',
-      paymentStatus: 'Pending',
+      paymentMethod: orderInput.paymentMethod || 'upi_qr',
+      paymentStatus: orderInput.paymentStatus || (orderInput.paymentMethod === 'pay_on_delivery' ? 'Pending' : 'Pending Verification'),
+      upiUtr: orderInput.upiUtr || '',
       orderStatus: 'Pending',
       deliveryNotes: orderInput.deliveryNotes || '',
       createdAt: new Date().toISOString()
@@ -363,6 +364,31 @@ class DatabaseAdapter {
       if (order) {
         order.orderStatus = status;
         if (deliveryNotes) order.deliveryNotes = deliveryNotes;
+        this.writeJson(data);
+      }
+      return order;
+    }
+  }
+
+  async updateOrderPaymentStatus(id, paymentStatus, upiUtr) {
+    if (this.mode === 'postgres') {
+      const res = await this.pgPool.query(
+        'UPDATE orders SET payment_status = $1 WHERE id = $2 RETURNING *',
+        [paymentStatus, id]
+      );
+      return res.rows[0] ? this.mapPgOrder(res.rows[0]) : null;
+    } else if (this.mode === 'mysql') {
+      await this.mysqlPool.query(
+        'UPDATE orders SET payment_status = ? WHERE id = ?',
+        [paymentStatus, id]
+      );
+      return this.getOrderById(id);
+    } else {
+      const data = this.readJson();
+      const order = (data.orders || []).find(o => o.id === id);
+      if (order) {
+        order.paymentStatus = paymentStatus;
+        if (upiUtr) order.upiUtr = upiUtr;
         this.writeJson(data);
       }
       return order;

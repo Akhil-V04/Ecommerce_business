@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, MapPin, Store, Truck, Phone, User, CheckCircle2, Navigation, AlertCircle, Copy, ExternalLink, ArrowRight } from 'lucide-react';
+import { X, MapPin, Store, Truck, Phone, User, CheckCircle2, Navigation, AlertCircle, Copy, ExternalLink, ArrowRight, Check, QrCode } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { QRCodeSVG } from 'qrcode.react';
 import LocationPickerMap from './LocationPickerMap';
 
 export default function CheckoutModal({
@@ -22,7 +23,22 @@ export default function CheckoutModal({
   const [deliveryLandmark, setDeliveryLandmark] = useState('');
   const [pinCode, setPinCode] = useState('500003');
   const [deliveryNotes, setDeliveryNotes] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('pay_on_delivery');
+  const [paymentMethod, setPaymentMethod] = useState('upi_qr'); // 'upi_qr' (Instant Dynamic UPI) or 'pay_on_delivery'
+  const [upiUtr, setUpiUtr] = useState('');
+  const [copiedUpi, setCopiedUpi] = useState(false);
+
+  const storeUpiId = '7013311862@ybl';
+  const upiUri = `upi://pay?pa=${encodeURIComponent(storeUpiId)}&pn=${encodeURIComponent('Srinivasa Silks')}&am=${encodeURIComponent(subtotal)}&cu=INR&tn=${encodeURIComponent('Srinivasa Silks Order')}`;
+
+  const handleCopyUpiId = () => {
+    try {
+      navigator.clipboard.writeText(storeUpiId);
+      setCopiedUpi(true);
+      setTimeout(() => setCopiedUpi(false), 2500);
+    } catch (e) {
+      // fallback
+    }
+  };
 
   // Live Location state
   const [isLocating, setIsLocating] = useState(false);
@@ -122,6 +138,8 @@ export default function CheckoutModal({
         deliveryFee: fulfillmentType === 'store_pickup' ? 0 : 0, // Delivery fee to be paid to Rapido/Porter
         totalAmount: subtotal,
         paymentMethod: fulfillmentType === 'store_pickup' ? 'pay_at_store' : paymentMethod,
+        paymentStatus: paymentMethod === 'pay_on_delivery' ? 'Pending' : (upiUtr.trim() ? 'Paid (UTR Provided)' : 'Pending Verification'),
+        upiUtr: upiUtr.trim(),
         deliveryNotes: deliveryNotes.trim()
       };
 
@@ -167,12 +185,17 @@ export default function CheckoutModal({
       ? `\n📍 Live Location (Google Maps): ${placedOrder.liveLocation.mapsUrl}`
       : '';
 
+    const paymentDetails = placedOrder.paymentMethod === 'upi_qr'
+      ? `*Payment:* ⚡ Instant UPI QR (Amount: ₹${placedOrder.totalAmount})${placedOrder.upiUtr ? `\n*UPI Ref / UTR:* ${placedOrder.upiUtr}` : ''}\n(Attaching screenshot below)`
+      : `*Payment:* 💵 Pay on Delivery (${placedOrder.fulfillmentType === 'store_pickup' ? 'At Showroom Counter' : 'Cash/UPI to Rider'})`;
+
     const text = `*New Order Placed at Srinivasa Silks!*
 *Order ID:* ${placedOrder.id}
 *Customer:* ${placedOrder.customerName} (${placedOrder.customerPhone})
 *Fulfillment:* ${placedOrder.fulfillmentType === 'store_pickup' ? '🏪 Store Pickup at Secunderabad' : '🛵 Hyderabad Delivery via Rapido/Porter'}
-${placedOrder.fulfillmentType === 'hyderabad_delivery' ? `*Address:* ${placedOrder.deliveryAddress}\n*Landmark:* ${placedOrder.deliveryLandmark || 'N/A'}${locationText}` : ''}
+${placedOrder.fulfillmentType === 'hyderabad_delivery' ? `*Address:* ${placedOrder.deliveryAddress}\n*Landmark:* ${placedOrder.deliveryLandmark || 'N/A'}${locationText}\n` : ''}
 *Total Items Amount:* ₹${placedOrder.totalAmount}
+${paymentDetails}
 
 *Items:*
 ${itemsList}
@@ -505,10 +528,40 @@ Please confirm my order and share dispatch timing!`;
                 </div>
               )}
 
-              {/* Payment Method */}
+              {/* Payment Method - Dynamic UPI QR Option */}
               <div style={{ marginBottom: '20px' }}>
-                <label className="form-label">Payment Method (Payment Gateway Decided Later)</label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <label className="form-label">Payment Method</label>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '14px' }}>
+                  <label
+                    style={{
+                      border: `1.5px solid ${paymentMethod === 'upi_qr' ? '#15803d' : '#e0dcd3'}`,
+                      background: paymentMethod === 'upi_qr' ? '#f0fdf4' : '#ffffff',
+                      padding: '12px',
+                      borderRadius: '10px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '4px',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <input
+                        type="radio"
+                        name="payment"
+                        checked={paymentMethod === 'upi_qr'}
+                        onChange={() => setPaymentMethod('upi_qr')}
+                        style={{ accentColor: '#15803d' }}
+                      />
+                      <strong style={{ fontSize: '13px', color: paymentMethod === 'upi_qr' ? '#15803d' : '#181716' }}>
+                        ⚡ Instant UPI QR (0% Fee)
+                      </strong>
+                    </div>
+                    <span style={{ fontSize: '11.5px', color: '#555', paddingLeft: '22px' }}>
+                      GPay, PhonePe, Paytm, BHIM
+                    </span>
+                  </label>
+
                   <label
                     style={{
                       border: `1.5px solid ${paymentMethod === 'pay_on_delivery' ? '#181716' : '#e0dcd3'}`,
@@ -518,7 +571,8 @@ Please confirm my order and share dispatch timing!`;
                       cursor: 'pointer',
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '4px'
+                      gap: '4px',
+                      transition: 'all 0.2s ease'
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -537,34 +591,123 @@ Please confirm my order and share dispatch timing!`;
                       Cash or UPI to rider / counter
                     </span>
                   </label>
-
-                  <label
-                    style={{
-                      border: `1.5px solid ${paymentMethod === 'upi_qr' ? '#181716' : '#e0dcd3'}`,
-                      background: paymentMethod === 'upi_qr' ? '#fdfbf7' : '#ffffff',
-                      padding: '12px',
-                      borderRadius: '10px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '4px'
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <input
-                        type="radio"
-                        name="payment"
-                        checked={paymentMethod === 'upi_qr'}
-                        onChange={() => setPaymentMethod('upi_qr')}
-                        style={{ accentColor: '#181716' }}
-                      />
-                      <strong style={{ fontSize: '13px' }}>Direct UPI QR</strong>
-                    </div>
-                    <span style={{ fontSize: '11.5px', color: '#777', paddingLeft: '22px' }}>
-                      GPay / PhonePe / Paytm
-                    </span>
-                  </label>
                 </div>
+
+                {/* DYNAMIC UPI QR & MOBILE INTENT CONTAINER */}
+                {paymentMethod === 'upi_qr' && (
+                  <div style={{
+                    background: '#fdfbf7',
+                    border: '1.5px solid #e7decb',
+                    borderRadius: '14px',
+                    padding: '16px',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.02)'
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', borderBottom: '1px dashed #dfd5be', paddingBottom: '10px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: 700, color: '#15803d' }}>
+                        <QrCode size={17} /> Direct UPI Payment (Zero Commission)
+                      </div>
+                      <span style={{ fontSize: '14px', fontWeight: 800, color: '#181716' }}>
+                        Amount: ₹{subtotal.toLocaleString('en-IN')}
+                      </span>
+                    </div>
+
+                    {/* Mobile 1-Tap UPI Intent Button */}
+                    <a
+                      href={upiUri}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px',
+                        background: '#15803d',
+                        color: '#ffffff',
+                        padding: '12px 16px',
+                        borderRadius: '10px',
+                        fontWeight: 700,
+                        fontSize: '14px',
+                        textDecoration: 'none',
+                        marginBottom: '12px',
+                        boxShadow: '0 4px 12px rgba(21, 128, 61, 0.25)',
+                        textAlign: 'center'
+                      }}
+                    >
+                      <span>📱 Tap to Pay ₹{subtotal.toLocaleString('en-IN')} in UPI App</span>
+                      <ArrowRight size={16} />
+                    </a>
+
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', flexWrap: 'wrap', marginBottom: '14px' }}>
+                      {['Google Pay', 'PhonePe', 'Paytm', 'BHIM', 'CRED'].map(app => (
+                        <span key={app} style={{ fontSize: '11px', background: '#ffffff', border: '1px solid #e0dcd3', padding: '3px 8px', borderRadius: '4px', color: '#555', fontWeight: 600 }}>
+                          {app}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* QR Code and Scan Section */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', background: '#ffffff', border: '1px solid #ebd9b8', padding: '12px', borderRadius: '10px', flexWrap: 'wrap' }}>
+                      <div style={{ background: '#ffffff', padding: '8px', borderRadius: '8px', border: '1px solid #eee', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto' }}>
+                        <QRCodeSVG
+                          value={upiUri}
+                          size={140}
+                          bgColor="#ffffff"
+                          fgColor="#181716"
+                          level="M"
+                          includeMargin={false}
+                        />
+                      </div>
+
+                      <div style={{ flex: 1, minWidth: '200px' }}>
+                        <div style={{ fontSize: '13px', fontWeight: 700, color: '#181716' }}>
+                          Scan with PhonePe / GPay / Paytm
+                        </div>
+                        <div style={{ fontSize: '12px', color: '#68645e', margin: '4px 0 10px', lineHeight: 1.4 }}>
+                          Scan this QR code with any UPI app on another phone to pay exact <strong>₹{subtotal.toLocaleString('en-IN')}</strong> directly to Srinivasa Silks.
+                        </div>
+
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#f5f3ef', padding: '6px 10px', borderRadius: '6px', fontSize: '12px' }}>
+                          <span>UPI ID: <strong>{storeUpiId}</strong></span>
+                          <button
+                            type="button"
+                            onClick={handleCopyUpiId}
+                            style={{
+                              background: '#ffffff',
+                              border: '1px solid #dcd8cf',
+                              borderRadius: '4px',
+                              padding: '2px 8px',
+                              fontSize: '11px',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              fontWeight: 600
+                            }}
+                          >
+                            {copiedUpi ? <Check size={12} color="#15803d" /> : <Copy size={12} />}
+                            <span>{copiedUpi ? 'Copied!' : 'Copy'}</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* UTR Input */}
+                    <div style={{ marginTop: '14px' }}>
+                      <label className="form-label" style={{ fontSize: '12px', color: '#555', marginBottom: '4px' }}>
+                        UPI Reference / UTR Number (Optional, 12 Digits)
+                      </label>
+                      <input
+                        type="text"
+                        className="form-input"
+                        placeholder="e.g. 4287XXXXXXXX (from your UPI receipt)"
+                        value={upiUtr}
+                        onChange={(e) => setUpiUtr(e.target.value)}
+                        style={{ fontSize: '12.5px', background: '#ffffff' }}
+                      />
+                      <span style={{ fontSize: '11px', color: '#888', marginTop: '3px', display: 'block' }}>
+                        After paying, click 'Confirm & Place Order'. You can also send the payment screenshot on WhatsApp.
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Notes */}

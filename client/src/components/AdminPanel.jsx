@@ -20,7 +20,9 @@ import {
   Eye,
   Check,
   Edit,
-  X
+  X,
+  QrCode,
+  CreditCard
 } from 'lucide-react';
 import LocationPickerMap from './LocationPickerMap';
 
@@ -151,6 +153,25 @@ export default function AdminPanel({ onBackToStore }) {
       }
     } catch (err) {
       console.error('Failed to update order status:', err);
+    }
+  };
+
+  const handleUpdatePaymentStatus = async (orderId, newPaymentStatus) => {
+    try {
+      const res = await fetch(`/api/orders/${orderId}/payment`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paymentStatus: newPaymentStatus })
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        setOrders(prev => prev.map(o => o.id === orderId ? { ...o, paymentStatus: newPaymentStatus } : o));
+        if (inspectedOrder && inspectedOrder.id === orderId) {
+          setInspectedOrder(prev => ({ ...prev, paymentStatus: newPaymentStatus }));
+        }
+      }
+    } catch (err) {
+      console.error('Failed to update payment status:', err);
     }
   };
 
@@ -608,6 +629,23 @@ Items: ${order.items.length} items (Total: ₹${order.totalAmount})`;
                             🏪 Store Pick-up
                           </span>
                         )}
+                        {order.paymentMethod === 'upi_qr' ? (
+                          <span style={{
+                            background: order.paymentStatus?.includes('Paid') ? '#ecfdf5' : '#fffbeb',
+                            color: order.paymentStatus?.includes('Paid') ? '#047857' : '#b45309',
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            padding: '3px 8px',
+                            borderRadius: '999px',
+                            border: `1px solid ${order.paymentStatus?.includes('Paid') ? '#a7f3d0' : '#fde68a'}`
+                          }}>
+                            ⚡ UPI ({order.paymentStatus || 'Pending'})
+                          </span>
+                        ) : (
+                          <span style={{ background: '#fef3c7', color: '#b45309', fontSize: '11px', fontWeight: 700, padding: '3px 8px', borderRadius: '999px', border: '1px solid #fde68a' }}>
+                            💵 {order.paymentMethod === 'pay_at_store' ? 'Pay at Showroom' : 'COD'}
+                          </span>
+                        )}
                       </div>
                       <span style={{ fontSize: '12px', color: '#888', marginTop: '4px', display: 'block' }}>
                         Placed on {new Date(order.createdAt).toLocaleString('en-IN')}
@@ -809,8 +847,73 @@ Items: ${order.items.length} items (Total: ₹${order.totalAmount})`;
                         </select>
                       </div>
 
+                      {/* Payment Status & Verification Management */}
+                      <div className="form-group" style={{ marginTop: '12px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                          <label className="form-label" style={{ fontSize: '12px', margin: 0 }}>Payment Status</label>
+                          <span style={{
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            color: order.paymentStatus?.includes('Paid') ? '#15803d' : '#b45309'
+                          }}>
+                            {order.paymentStatus || 'Pending'}
+                          </span>
+                        </div>
+                        <select
+                          className="form-select"
+                          value={order.paymentStatus || 'Pending Verification'}
+                          onChange={(e) => handleUpdatePaymentStatus(order.id, e.target.value)}
+                          style={{
+                            borderColor: order.paymentStatus?.includes('Paid') ? '#86efac' : '#fed7aa',
+                            background: order.paymentStatus?.includes('Paid') ? '#f0fdf4' : '#fffbeb'
+                          }}
+                        >
+                          <option value="Pending Verification">Pending Verification</option>
+                          <option value="Paid / Verified ✓">Paid / Verified ✓</option>
+                          <option value="Pending (Pay on Delivery)">Pending (Pay on Delivery)</option>
+                          <option value="Refunded">Refunded</option>
+                        </select>
+                      </div>
+
+                      {/* Payment Method & UTR / Bank Reference Block */}
+                      <div style={{ marginTop: '10px', fontSize: '12px', background: '#ffffff', padding: '10px', borderRadius: '8px', border: '1px solid #eee' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+                          <span style={{ color: '#666' }}>Method:</span>
+                          <strong>
+                            {order.paymentMethod === 'upi_qr'
+                              ? '⚡ Instant UPI QR (7013311862@ybl)'
+                              : (order.paymentMethod === 'pay_on_delivery' ? '💵 Pay on Delivery' : '🏪 Pay at Showroom')}
+                          </strong>
+                        </div>
+
+                        {order.upiUtr ? (
+                          <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed #eee', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <div>
+                              <span style={{ color: '#666' }}>UTR / Ref: </span>
+                              <code style={{ fontWeight: 700, color: '#15803d', background: '#ecfdf5', padding: '2px 5px', borderRadius: '4px' }}>
+                                {order.upiUtr}
+                              </code>
+                            </div>
+                            <button
+                              onClick={() => {
+                                navigator.clipboard.writeText(order.upiUtr);
+                                setCopiedOrderId(`utr-${order.id}`);
+                                setTimeout(() => setCopiedOrderId(null), 2000);
+                              }}
+                              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#15803d', fontSize: '11px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '2px' }}
+                            >
+                              {copiedOrderId === `utr-${order.id}` ? '✓ Copied' : 'Copy'}
+                            </button>
+                          </div>
+                        ) : (
+                          <div style={{ marginTop: '4px', color: '#888', fontSize: '11px' }}>
+                            {order.paymentMethod === 'upi_qr' ? 'ℹ️ Verify via PhonePe/GPay app or Bank SMS' : ''}
+                          </div>
+                        )}
+                      </div>
+
                       {order.deliveryNotes && (
-                        <div style={{ fontSize: '12px', color: '#666', background: '#fff', padding: '8px', borderRadius: '6px', border: '1px solid #eee' }}>
+                        <div style={{ fontSize: '12px', color: '#666', background: '#fff', padding: '8px', borderRadius: '6px', border: '1px solid #eee', marginTop: '10px' }}>
                           <strong>Notes:</strong> {order.deliveryNotes}
                         </div>
                       )}
@@ -1107,10 +1210,22 @@ Items: ${order.items.length} items (Total: ₹${order.totalAmount})`;
                   <span><strong>Landmark:</strong> {inspectedOrder.deliveryLandmark}<br /></span>
                 )}
                 {inspectedOrder.liveLocation && (
-                  <span style={{ color: '#137333', fontWeight: 600 }}>
+                  <div style={{ color: '#137333', fontWeight: 600, marginTop: '4px' }}>
                     GPS: {inspectedOrder.liveLocation.latitude.toFixed(5)}, {inspectedOrder.liveLocation.longitude.toFixed(5)}
-                  </span>
+                  </div>
                 )}
+                <div style={{ marginTop: '8px', padding: '8px 10px', background: '#f9f8f5', borderRadius: '8px', fontSize: '12.5px', border: '1px solid #eee' }}>
+                  <span>Payment: <strong>{inspectedOrder.paymentMethod === 'upi_qr' ? '⚡ UPI QR (7013311862@ybl)' : (inspectedOrder.paymentMethod === 'pay_at_store' ? '🏪 Pay at Showroom' : '💵 Pay on Delivery')}</strong></span>
+                  {' • '}
+                  <span style={{ color: inspectedOrder.paymentStatus?.includes('Paid') ? '#15803d' : '#b45309', fontWeight: 700 }}>
+                    {inspectedOrder.paymentStatus || 'Pending'}
+                  </span>
+                  {inspectedOrder.upiUtr && (
+                    <span style={{ marginLeft: '8px' }}>
+                      (UTR: <code style={{ fontWeight: 700 }}>{inspectedOrder.upiUtr}</code>)
+                    </span>
+                  )}
+                </div>
               </div>
 
               {inspectedOrder.liveLocation && (

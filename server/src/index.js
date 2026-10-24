@@ -207,6 +207,8 @@ app.post('/api/orders', async (req, res) => {
       deliveryFee,
       totalAmount,
       paymentMethod,
+      paymentStatus,
+      upiUtr,
       deliveryNotes
     } = req.body;
 
@@ -231,7 +233,9 @@ app.post('/api/orders', async (req, res) => {
       subtotal,
       deliveryFee,
       totalAmount,
-      paymentMethod: paymentMethod || 'pay_on_delivery',
+      paymentMethod: paymentMethod || 'upi_qr',
+      paymentStatus: paymentStatus || (paymentMethod === 'pay_on_delivery' ? 'Pending' : 'Pending Verification'),
+      upiUtr: upiUtr || '',
       deliveryNotes
     });
 
@@ -250,6 +254,18 @@ app.patch('/api/orders/:id/status', async (req, res) => {
   try {
     const { orderStatus, deliveryNotes } = req.body;
     const updated = await db.updateOrderStatus(req.params.id, orderStatus, deliveryNotes);
+    if (!updated) return res.status(404).json({ error: 'Order not found' });
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Update Order Payment Status (Admin action)
+app.patch('/api/orders/:id/payment', async (req, res) => {
+  try {
+    const { paymentStatus, upiUtr } = req.body;
+    const updated = await db.updateOrderPaymentStatus(req.params.id, paymentStatus, upiUtr);
     if (!updated) return res.status(404).json({ error: 'Order not found' });
     res.json(updated);
   } catch (err) {
