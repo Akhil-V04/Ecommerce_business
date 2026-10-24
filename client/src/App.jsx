@@ -6,30 +6,31 @@ import CartDrawer from './components/CartDrawer';
 import CheckoutModal from './components/CheckoutModal';
 import AdminPanel from './components/AdminPanel';
 import Footer from './components/Footer';
-import { Truck, Store, ShieldCheck, Sparkles, Phone, MapPin, ArrowRight } from 'lucide-react';
+import { Truck, Store, ShieldCheck, Sparkles, Phone, MapPin, ArrowRight, ShoppingBag } from 'lucide-react';
 
 export default function App() {
-  // Navigation / Route state: 'store' | 'admin'
-  const [currentView, setCurrentView] = useState(() => {
-    const path = window.location.pathname.toLowerCase();
+  // URL-only Admin Detection Helper (strictly accessed by typing /admin in browser address bar)
+  const checkIsAdminPath = () => {
+    const path = window.location.pathname.toLowerCase().replace(/\/+$/, '');
     const hash = window.location.hash.toLowerCase();
-    return (path === '/admin' || path.startsWith('/admin/') || hash === '#admin') ? 'admin' : 'store';
-  });
+    return path === '/admin' || path.startsWith('/admin') || hash === '#admin';
+  };
 
-  // Listen to browser forward/back buttons and URL changes
+  // Navigation / Route state: 'store' | 'admin'
+  const [currentView, setCurrentView] = useState(() => checkIsAdminPath() ? 'admin' : 'store');
+
+  // Listen to browser navigation, URL changes, and popstate
   useEffect(() => {
-    const handlePopState = () => {
-      const path = window.location.pathname.toLowerCase();
-      const hash = window.location.hash.toLowerCase();
-      if (path === '/admin' || path.startsWith('/admin/') || hash === '#admin') {
-        setCurrentView('admin');
-      } else {
-        setCurrentView('store');
-      }
+    const handleUrlChange = () => {
+      setCurrentView(checkIsAdminPath() ? 'admin' : 'store');
     };
 
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener('popstate', handleUrlChange);
+    window.addEventListener('hashchange', handleUrlChange);
+    return () => {
+      window.removeEventListener('popstate', handleUrlChange);
+      window.removeEventListener('hashchange', handleUrlChange);
+    };
   }, []);
 
   // Sync view changes to browser URL address bar
@@ -148,6 +149,7 @@ export default function App() {
   };
 
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const totalCartAmount = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
   // Filter products by category and search
   const filteredProducts = products.filter((p) => {
@@ -326,14 +328,22 @@ export default function App() {
               </div>
             ) : (
               <div className="product-grid">
-                {filteredProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    onSelectProduct={setSelectedProduct}
-                    onAddToCart={handleAddToCart}
-                  />
-                ))}
+                {filteredProducts.map((product) => {
+                  const inBagCount = cartItems
+                    .filter((item) => item.id === product.id)
+                    .reduce((acc, it) => acc + it.quantity, 0);
+
+                  return (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      inBagCount={inBagCount}
+                      onSelectProduct={setSelectedProduct}
+                      onAddToCart={handleAddToCart}
+                      onOpenCart={() => setIsCartOpen(true)}
+                    />
+                  );
+                })}
               </div>
             )}
           </section>
@@ -344,8 +354,15 @@ export default function App() {
       {selectedProduct && (
         <ProductModal
           product={selectedProduct}
+          inBagCount={cartItems
+            .filter((item) => item.id === selectedProduct.id)
+            .reduce((acc, it) => acc + it.quantity, 0)}
           onClose={() => setSelectedProduct(null)}
           onAddToCart={handleAddToCart}
+          onOpenCart={() => {
+            setSelectedProduct(null);
+            setIsCartOpen(true);
+          }}
           onBuyNow={() => {
             setSelectedProduct(null);
             setIsCheckoutOpen(true);
@@ -380,6 +397,33 @@ export default function App() {
         }}
         onNavigate={handleNavigate}
       />
+
+      {/* Floating Bag Button (Bottom Right) */}
+      {currentView === 'store' && !isCartOpen && !isCheckoutOpen && (
+        <button
+          className="floating-bag-button"
+          onClick={() => setIsCartOpen(true)}
+          aria-label="Shopping Bag"
+        >
+          <div className="floating-bag-icon-wrap">
+            <ShoppingBag size={22} />
+            {totalCartCount > 0 && (
+              <span className="floating-bag-badge">{totalCartCount}</span>
+            )}
+          </div>
+          {totalCartCount > 0 ? (
+            <div className="floating-bag-text">
+              <span className="floating-bag-label">VIEW BAG</span>
+              <span className="floating-bag-amount">₹{totalCartAmount.toLocaleString('en-IN')}</span>
+            </div>
+          ) : (
+            <div className="floating-bag-text">
+              <span className="floating-bag-label">BAG</span>
+              <span className="floating-bag-amount" style={{ fontSize: '11px', opacity: 0.8 }}>Empty</span>
+            </div>
+          )}
+        </button>
+      )}
     </div>
   );
 }

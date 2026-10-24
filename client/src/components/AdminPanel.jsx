@@ -44,7 +44,6 @@ export default function AdminPanel({ onBackToStore }) {
     name: '',
     category: 'Sarees',
     price: '',
-    originalPrice: '',
     fabric: '',
     description: '',
     colors: 'Crimson Red, Gold Zari',
@@ -255,7 +254,6 @@ export default function AdminPanel({ onBackToStore }) {
         name: newProduct.name,
         category: newProduct.category,
         price: Number(newProduct.price),
-        originalPrice: newProduct.originalPrice ? Number(newProduct.originalPrice) : null,
         fabric: newProduct.fabric,
         description: newProduct.description,
         colors: colorsArray,
@@ -279,7 +277,6 @@ export default function AdminPanel({ onBackToStore }) {
           name: '',
           category: 'Sarees',
           price: '',
-          originalPrice: '',
           fabric: '',
           description: '',
           colors: 'Crimson Red, Gold Zari',
@@ -336,19 +333,16 @@ Items: ${order.items.length} items (Total: ₹${order.totalAmount})`;
 
           <form onSubmit={handleLogin}>
             <div className="form-group">
-              <label className="form-label">Enter Admin Passcode</label>
+              <label className="form-label">Admin Passcode</label>
               <input
                 type="password"
                 className="form-input"
-                placeholder="Default passcode: admin123"
+                placeholder="Enter secret passcode"
                 value={passcode}
                 onChange={(e) => setPasscode(e.target.value)}
                 autoFocus
                 required
               />
-              <span style={{ fontSize: '11.5px', color: '#888', marginTop: '4px', display: 'block' }}>
-                Hint: Default passcode is <code>admin123</code>
-              </span>
             </div>
 
             {loginError && (
@@ -877,12 +871,8 @@ Items: ${order.items.length} items (Total: ₹${order.totalAmount})`;
 
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '8px 0' }}>
                     <div>
+                      <span style={{ fontSize: '12px', color: '#777', marginRight: '4px' }}>MRP:</span>
                       <strong style={{ fontSize: '18px', color: '#181716' }}>₹{p.price.toLocaleString('en-IN')}</strong>
-                      {p.originalPrice && (
-                        <span style={{ fontSize: '12px', color: '#888', textDecoration: 'line-through', marginLeft: '6px' }}>
-                          ₹{p.originalPrice.toLocaleString('en-IN')}
-                        </span>
-                      )}
                     </div>
                     <span style={{ fontSize: '12px', color: '#888' }}>Stock: {p.stockQuantity}</span>
                   </div>
@@ -938,7 +928,7 @@ Items: ${order.items.length} items (Total: ₹${order.totalAmount})`;
           <div style={{ marginBottom: '24px', borderBottom: '1px solid #eae7e1', paddingBottom: '16px' }}>
             <h3 style={{ fontSize: '22px', fontWeight: 700, color: '#181716' }}>Upload New Saree / Fabric Item</h3>
             <p style={{ fontSize: '13px', color: '#68645e', marginTop: '4px' }}>
-              Add new Kanchipuram sarees, linings, raw silks or petticoats directly to Srinivasa Silks catalog.
+              Add new Kanchipuram sarees, linings, or raw silks directly to Srinivasa Silks catalog.
             </p>
           </div>
 
@@ -972,7 +962,6 @@ Items: ${order.items.length} items (Total: ₹${order.totalAmount})`;
                   <option value="Sarees">Sarees</option>
                   <option value="Linings">Linings</option>
                   <option value="Silks">Silks</option>
-                  <option value="Petticoats">Petticoats</option>
                 </select>
               </div>
 
@@ -988,9 +977,9 @@ Items: ${order.items.length} items (Total: ₹${order.totalAmount})`;
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               <div className="form-group">
-                <label className="form-label">Selling Price (₹) *</label>
+                <label className="form-label">MRP (₹) *</label>
                 <input
                   type="number"
                   className="form-input"
@@ -998,17 +987,6 @@ Items: ${order.items.length} items (Total: ₹${order.totalAmount})`;
                   value={newProduct.price}
                   onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
                   required
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Original MRP (₹)</label>
-                <input
-                  type="number"
-                  className="form-input"
-                  placeholder="e.g. 14500 (Optional for strike)"
-                  value={newProduct.originalPrice}
-                  onChange={(e) => setNewProduct({ ...newProduct, originalPrice: e.target.value })}
                 />
               </div>
 
@@ -1060,7 +1038,6 @@ Items: ${order.items.length} items (Total: ₹${order.totalAmount})`;
                       { name: 'Banarasi Blue', url: '/products/banarasi_saree.jpg' },
                       { name: 'Cotton Linings', url: '/products/linings_fabrics.jpg' },
                       { name: 'Raw Silks', url: '/products/raw_silks_material.jpg' },
-                      { name: 'Petticoats', url: '/products/petticoats_wear.jpg' },
                     ].map((pre) => (
                       <button
                         type="button"

@@ -1125,32 +1125,396 @@ body::before {
   color: var(--text-muted);
 }
 
-/* Responsive adjustments */
+/* In-Bag Interactive State Styles */
+.in-bag-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.in-bag-btn {
+  background: #15803d;
+  color: #ffffff;
+  border: 1.5px solid #15803d;
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.25);
+}
+
+.in-bag-btn:hover {
+  background: #166534;
+  border-color: #166534;
+  transform: translateY(-1px);
+}
+
+.in-bag-plus-btn {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1.5px solid #86efac;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.in-bag-plus-btn:hover {
+  background: #15803d;
+  color: #ffffff;
+  border-color: #15803d;
+}
+
+/* Floating Bag Button (Fixed at Bottom Right) */
+.floating-bag-button {
+  position: fixed;
+  bottom: 24px;
+  right: 20px;
+  z-index: 999;
+  background: #181716;
+  color: #ffffff;
+  border: 1.5px solid #ffd700;
+  border-radius: var(--radius-full);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 15px rgba(255, 215, 0, 0.25);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.floating-bag-button:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.4), 0 0 22px rgba(255, 215, 0, 0.4);
+}
+
+.floating-bag-button:active {
+  transform: scale(0.97);
+}
+
+.floating-bag-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffd700;
+}
+
+.floating-bag-badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background: #15803d;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid #181716;
+  animation: pulseBagBadge 2s infinite;
+}
+
+@keyframes pulseBagBadge {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.floating-bag-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.2;
+}
+
+.floating-bag-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #ffd700;
+}
+
+.floating-bag-amount {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   MOBILE-FIRST & RESPONSIVE VIEW PERSPECTIVE
+   Simple, clean, touch-friendly mobile shopping app experience
+   ========================================================================== */
 @media (max-width: 900px) {
   .hero-inner {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
   .footer-inner {
     grid-template-columns: 1fr 1fr;
+    gap: 24px;
   }
 }
 
 @media (max-width: 640px) {
+  /* Safe spacing for bottom floating bag button */
+  .app-container {
+    padding-bottom: 70px;
+  }
+
+  /* Top announcement bar */
+  .top-announcement-bar {
+    padding: 6px 12px;
+    font-size: 11px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  /* Main Header on Mobile */
+  .header-inner {
+    padding: 10px 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .brand-text h1 {
+    font-size: 18px;
+    letter-spacing: 0.04em;
+  }
+
+  .brand-text p {
+    font-size: 9.5px;
+  }
+
+  .brand-emblem {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  /* Mobile Search Bar: Clean & Full Width */
   .header-search {
-    display: none;
+    order: 3;
+    max-width: 100%;
+    width: 100%;
+    margin-top: 2px;
   }
-  .fulfillment-tabs {
-    grid-template-columns: 1fr;
+
+  .header-search input {
+    font-size: 13px;
+    padding: 8px 14px 8px 36px;
   }
+
+  .header-search .search-icon {
+    left: 12px;
+    width: 15px;
+    height: 15px;
+  }
+
+  /* WhatsApp Pill on Mobile */
+  .contact-pill {
+    padding: 5px 10px;
+    font-size: 11.5px;
+  }
+
+  /* Category horizontal scrolling bar on mobile */
+  .category-nav-bar {
+    padding: 8px 12px;
+  }
+
+  .category-pill-group {
+    gap: 6px;
+  }
+
+  .category-tab-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  /* Compact Clean Hero on Mobile */
+  .hero-banner {
+    padding: 20px 14px;
+  }
+
   .hero-title {
-    font-size: 32px;
+    font-size: 24px;
+    line-height: 1.25;
+    margin-bottom: 10px;
   }
+
+  .hero-subtitle {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .hero-features {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .hero-feature-item {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .hero-location-card {
+    padding: 16px;
+  }
+
+  /* 2-Column Mobile Product Grid (Myntra / Zara Style) */
+  .products-section {
+    padding: 24px 12px;
+  }
+
+  .section-header {
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+  }
+
+  .section-title {
+    font-size: 20px;
+  }
+
+  .section-desc {
+    font-size: 12px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .product-card {
+    border-radius: 12px;
+  }
+
+  .product-content {
+    padding: 10px 8px 12px;
+  }
+
+  .product-title {
+    font-size: 13px;
+    margin-bottom: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 34px;
+  }
+
+  .product-fabric {
+    font-size: 10.5px;
+    padding: 2px 6px;
+    margin-bottom: 6px;
+    max-width: 100%;
+  }
+
+  .product-colors-preview {
+    display: none; /* Keep mobile card clean and focused on item photo and price */
+  }
+
+  .product-card-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding-top: 8px;
+  }
+
+  .price-box {
+    align-items: flex-start;
+  }
+
+  .current-price {
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .add-to-cart-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .in-bag-actions {
+    width: 100%;
+    display: flex;
+    gap: 4px;
+  }
+
+  .in-bag-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 8px;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+  }
+
+  .in-bag-plus-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  /* Floating Bag Button on Mobile: Compact Pill */
+  .floating-bag-button {
+    bottom: 16px;
+    right: 14px;
+    padding: 10px 16px;
+    gap: 10px;
+  }
+
+  .floating-bag-label {
+    font-size: 10px;
+  }
+
+  .floating-bag-amount {
+    font-size: 12.5px;
+  }
+
+  /* Product Modal on Mobile (Bottom Sheet Experience) */
+  .modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal-content {
+    border-radius: 20px 20px 0 0;
+    max-height: 90vh;
+    width: 100%;
+  }
+
+  /* Footer on Mobile */
   .footer-inner {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
+
   .footer-bottom {
     flex-direction: column;
     gap: 12px;
     text-align: center;
+    font-size: 11.5px;
   }
 }

@@ -136,19 +136,6 @@ export default function Footer({ onSelectCategory, onNavigate }) {
         </div>
         <div style={{ display: 'flex', gap: '18px', alignItems: 'center' }}>
           <span style={{ fontSize: '12px', color: '#999' }}>Hyderabad Delivery via Rapido / Porter</span>
-          <button
-            onClick={() => onNavigate('admin')}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#888',
-              fontSize: '12px',
-              cursor: 'pointer',
-              textDecoration: 'underline'
-            }}
-          >
-            Admin Login (/admin)
-          </button>
         </div>
       </div>
     </footer>

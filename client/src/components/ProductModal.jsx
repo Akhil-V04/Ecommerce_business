@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { X, ShoppingBag, ShieldCheck, Truck, Store, Check, Sparkles } from 'lucide-react';
 
-export default function ProductModal({ product, onClose, onAddToCart, onBuyNow }) {
+export default function ProductModal({
+  product,
+  inBagCount = 0,
+  onClose,
+  onAddToCart,
+  onOpenCart,
+  onBuyNow
+}) {
   if (!product) return null;
 
   const [selectedColor, setSelectedColor] = useState(
@@ -14,9 +21,6 @@ export default function ProductModal({ product, onClose, onAddToCart, onBuyNow }
   const [includeLining, setIncludeLining] = useState(false);
   const [includePetticoat, setIncludePetticoat] = useState(false);
 
-  const discountPercent = product.originalPrice && product.originalPrice > product.price
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-    : null;
 
   const handleAddToCart = () => {
     // Add main product
@@ -102,20 +106,11 @@ export default function ProductModal({ product, onClose, onAddToCart, onBuyNow }
               </h2>
 
               {/* Price Banner */}
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '14px' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '14px' }}>
+                <span style={{ fontSize: '14px', color: '#68645e', fontWeight: 600 }}>MRP:</span>
                 <span style={{ fontSize: '28px', fontWeight: 800, color: '#181716' }}>
                   ₹{product.price.toLocaleString('en-IN')}
                 </span>
-                {product.originalPrice && (
-                  <span style={{ fontSize: '16px', color: '#888', textDecoration: 'line-through' }}>
-                    ₹{product.originalPrice.toLocaleString('en-IN')}
-                  </span>
-                )}
-                {discountPercent && (
-                  <span style={{ background: '#8a1528', color: '#fff', fontSize: '12px', fontWeight: 700, padding: '2px 8px', borderRadius: '999px' }}>
-                    Save {discountPercent}%
-                  </span>
-                )}
               </div>
 
               {/* Fabric Specs */}
@@ -235,10 +230,21 @@ export default function ProductModal({ product, onClose, onAddToCart, onBuyNow }
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: 'auto' }}>
                 <button
                   className="add-to-cart-btn"
-                  style={{ justifyContent: 'center', padding: '12px 20px', fontSize: '14px' }}
+                  style={{
+                    justifyContent: 'center',
+                    padding: '12px 18px',
+                    fontSize: '13.5px',
+                    background: inBagCount > 0 ? '#15803d' : '#ffffff',
+                    color: inBagCount > 0 ? '#ffffff' : '#181716',
+                    borderColor: inBagCount > 0 ? '#15803d' : '#181716'
+                  }}
                   onClick={handleAddToCart}
                 >
-                  {isAdded ? (
+                  {inBagCount > 0 ? (
+                    <>
+                      <Check size={16} strokeWidth={2.5} /> IN BAG ({inBagCount}) +
+                    </>
+                  ) : isAdded ? (
                     <>
                       <Check size={16} /> Added to Bag!
                     </>
@@ -251,7 +257,7 @@ export default function ProductModal({ product, onClose, onAddToCart, onBuyNow }
 
                 <button
                   className="checkout-btn"
-                  style={{ padding: '12px 20px', fontSize: '14px' }}
+                  style={{ padding: '12px 18px', fontSize: '13.5px' }}
                   onClick={handleBuyNow}
                 >
                   Order Now →

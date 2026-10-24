@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import { ShoppingBag, Eye, Check } from 'lucide-react';
 
-export default function ProductCard({ product, onSelectProduct, onAddToCart }) {
-  const [isAdded, setIsAdded] = useState(false);
+export default function ProductCard({
+  product,
+  inBagCount = 0,
+  onSelectProduct,
+  onAddToCart,
+  onOpenCart
+}) {
+  const isInBag = inBagCount > 0;
 
   const handleAdd = (e) => {
     e.stopPropagation();
     onAddToCart(product);
-    setIsAdded(true);
-    setTimeout(() => setIsAdded(false), 1500);
   };
 
-  const discountPercent = product.originalPrice && product.originalPrice > product.price
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-    : null;
+  const handleOpenCart = (e) => {
+    e.stopPropagation();
+    if (onOpenCart) onOpenCart();
+  };
 
   return (
     <div className="product-card" onClick={() => onSelectProduct(product)}>
@@ -32,25 +37,6 @@ export default function ProductCard({ product, onSelectProduct, onAddToCart }) {
           <span className="product-badge-stock">In Stock</span>
         ) : (
           <span className="product-badge-stock out">Out of Stock</span>
-        )}
-
-        {discountPercent && (
-          <span
-            style={{
-              position: 'absolute',
-              bottom: '10px',
-              left: '12px',
-              background: '#8a1528',
-              color: '#ffffff',
-              fontSize: '11px',
-              fontWeight: '700',
-              padding: '2px 8px',
-              borderRadius: '9999px',
-              letterSpacing: '0.04em'
-            }}
-          >
-            {discountPercent}% OFF
-          </span>
         )}
       </div>
 
@@ -78,26 +64,35 @@ export default function ProductCard({ product, onSelectProduct, onAddToCart }) {
         <div className="product-card-footer">
           <div className="price-box">
             <span className="current-price">₹{product.price.toLocaleString('en-IN')}</span>
-            {product.originalPrice && (
-              <span className="original-price">₹{product.originalPrice.toLocaleString('en-IN')}</span>
-            )}
           </div>
 
-          <button
-            className={`add-to-cart-btn ${isAdded ? 'added' : ''}`}
-            onClick={handleAdd}
-            disabled={!product.inStock}
-          >
-            {isAdded ? (
-              <>
-                <Check size={14} /> Added
-              </>
-            ) : (
-              <>
-                <ShoppingBag size={14} /> Add to Bag
-              </>
-            )}
-          </button>
+          {isInBag ? (
+            <div className="in-bag-actions" onClick={(e) => e.stopPropagation()}>
+              <button
+                className="in-bag-btn"
+                onClick={handleOpenCart}
+                title="View in Bag"
+              >
+                <Check size={14} strokeWidth={2.5} />
+                <span>IN BAG {inBagCount > 1 ? `(${inBagCount})` : ''}</span>
+              </button>
+              <button
+                className="in-bag-plus-btn"
+                onClick={handleAdd}
+                title="Add 1 more to Bag"
+              >
+                +
+              </button>
+            </div>
+          ) : (
+            <button
+              className="add-to-cart-btn"
+              onClick={handleAdd}
+              disabled={!product.inStock}
+            >
+              <ShoppingBag size={14} /> Add to Bag
+            </button>
+          )}
         </div>
       </div>
     </div>

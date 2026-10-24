@@ -36,21 +36,23 @@ export default function Header({
           >
             <Phone size={13} /> +91 70133 11862
           </a>
-          <button
-            onClick={() => onNavigate(currentView === 'admin' ? 'store' : 'admin')}
-            style={{
-              background: currentView === 'admin' ? '#ffd700' : 'rgba(255,255,255,0.1)',
-              color: currentView === 'admin' ? '#000000' : '#d8d3c8',
-              border: '1px solid rgba(255,255,255,0.2)',
-              borderRadius: '9999px',
-              padding: '2px 10px',
-              fontSize: '11px',
-              cursor: 'pointer',
-              fontWeight: 600
-            }}
-          >
-            {currentView === 'admin' ? '← Back to Store' : 'Admin Portal (/admin)'}
-          </button>
+          {currentView === 'admin' && (
+            <button
+              onClick={() => onNavigate('store')}
+              style={{
+                background: '#ffd700',
+                color: '#000000',
+                border: '1px solid rgba(255,255,255,0.2)',
+                borderRadius: '9999px',
+                padding: '2px 10px',
+                fontSize: '11px',
+                cursor: 'pointer',
+                fontWeight: 600
+              }}
+            >
+              ← Back to Store
+            </button>
+          )}
         </div>
       </div>
 
@@ -89,16 +91,8 @@ export default function Header({
             className="contact-pill"
           >
             <span style={{ color: '#25D366', fontSize: '15px' }}>💬</span>
-            <span>WhatsApp (7013311862)</span>
+            <span className="contact-pill-text">WhatsApp</span>
           </a>
-
-          {currentView === 'store' && (
-            <button className="cart-button" onClick={onOpenCart}>
-              <ShoppingBag size={18} />
-              <span>Bag</span>
-              <span className="cart-count-badge">{cartCount}</span>
-            </button>
-          )}
         </div>
       </div>
 
