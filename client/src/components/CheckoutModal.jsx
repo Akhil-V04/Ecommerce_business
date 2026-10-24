@@ -351,7 +351,7 @@ Please confirm my order and share dispatch timing!`;
                   <User size={16} style={{ color: '#b8860b' }} /> Customer Contact Information
                 </h4>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="checkout-two-col-grid">
                   <div className="form-group" style={{ marginBottom: 0 }}>
                     <label className="form-label">Full Name</label>
                     <input
@@ -465,7 +465,7 @@ Please confirm my order and share dispatch timing!`;
                     />
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '12px' }}>
+                  <div className="checkout-two-col-grid">
                     <div className="form-group">
                       <label className="form-label">Landmark in Hyderabad</label>
                       <input
@@ -530,8 +530,7 @@ Please confirm my order and share dispatch timing!`;
 
               {/* Payment Method - Dynamic UPI QR Option */}
               <div style={{ marginBottom: '20px' }}>
-                <label className="form-label">Payment Method</label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '14px' }}>
+                <div className="payment-options-grid">
                   <label
                     style={{
                       border: `1.5px solid ${paymentMethod === 'upi_qr' ? '#15803d' : '#e0dcd3'}`,

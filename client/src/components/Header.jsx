@@ -117,11 +117,12 @@ export default function Header({
               href="https://maps.app.goo.gl/6i7ESPtwhNTuSAEX8"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ fontSize: '12.5px', color: '#6b665f', display: 'flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}
+              className="header-map-link"
+              style={{ fontSize: '12.5px', color: '#6b665f', display: 'flex', alignItems: 'center', gap: '6px', textDecoration: 'none', whiteSpace: 'nowrap' }}
               title="Open Srinivasa Silks Location in Google Maps"
             >
               <MapPin size={14} style={{ color: '#b8860b' }} />
-              <span>Prashanti Nagar, Moula Ali, Hyderabad</span>
+              <span>Lalapet, Secunderabad</span>
               <span style={{ fontSize: '11px', color: '#b8860b', fontWeight: 600 }}>[Maps ↗]</span>
             </a>
           </div>

@@ -59,7 +59,7 @@
 }
 
 html, body {
-  background-color: var(--bg-primary);
+  background-color: #f7f3ea; /* Rich warm silk ivory base under gold abstract pattern */
   color: var(--text-primary);
   font-family: var(--font-sans);
   font-size: 15px;
@@ -67,6 +67,8 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  width: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
 /* Scrollbar */
@@ -99,16 +101,16 @@ h1, h2, h3, h4, .font-serif {
   text-transform: uppercase;
 }
 
-/* Traditional Abstract Silk Pattern Background (50% Opacity) */
+/* Gold Traditional Simple Aesthetic Abstract Background */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background-image: url('/traditional_silk_bg.jpg');
+  background-image: url('/gold_traditional_abstract_bg.jpg');
   background-repeat: repeat;
-  background-size: 460px 460px;
+  background-size: 280px 280px;
   background-position: center;
-  opacity: 0.50; /* Traditional abstract background at 50% opacity */
+  opacity: 0.55; /* Clean, subtle gold traditional abstract aesthetic across entire site */
   pointer-events: none;
   z-index: 0;
 }
@@ -118,9 +120,12 @@ body::before {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: rgba(255, 255, 255, 0.88);
+  background-color: transparent;
   position: relative;
   z-index: 1;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 /* Top Announcement Bar */
@@ -382,8 +387,9 @@ body::before {
 
 /* Hero Section */
 .hero-banner {
-  background: linear-gradient(180deg, #fdfbf7 0%, #ffffff 100%);
-  border-bottom: 1px solid var(--border-light);
+  background: linear-gradient(180deg, rgba(254, 252, 248, 0.65) 0%, rgba(255, 255, 255, 0.78) 100%);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(184, 134, 11, 0.2);
   padding: 40px 24px;
 }
 
@@ -964,6 +970,20 @@ body::before {
   box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.12);
 }
 
+/* Responsive Form & Checkout Grids */
+.checkout-two-col-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.payment-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
 /* Toggle Tabs for Pickup vs Hyderabad Delivery */
 .fulfillment-tabs {
   display: grid;
@@ -1098,7 +1118,8 @@ body::before {
 
 /* Footer */
 .main-footer {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
   border-top: 1px solid var(--border-light);
   padding: 48px 24px 24px;
   color: var(--text-secondary);
@@ -1273,40 +1294,56 @@ body::before {
 }
 
 @media (max-width: 640px) {
+  /* Dynamic gold abstract pattern scaled for mobile screens */
+  body::before {
+    background-size: 200px 200px;
+    opacity: 0.50;
+  }
+
   /* Safe spacing for bottom floating bag button */
   .app-container {
-    padding-bottom: 70px;
+    padding-bottom: 85px;
   }
 
   /* Top announcement bar */
   .top-announcement-bar {
-    padding: 6px 12px;
+    padding: 6px 10px;
     font-size: 11px;
     flex-wrap: wrap;
     justify-content: center;
+    text-align: center;
     gap: 6px;
   }
 
   /* Main Header on Mobile */
+  .header-map-link {
+    display: none !important;
+  }
+
   .header-inner {
-    padding: 10px 14px;
+    padding: 10px 12px;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
   }
 
-  .brand-text h1 {
-    font-size: 18px;
-    letter-spacing: 0.04em;
-  }
-
-  .brand-text p {
-    font-size: 9.5px;
+  .brand-wrapper {
+    gap: 8px;
   }
 
   .brand-emblem {
-    width: 36px;
-    height: 36px;
-    font-size: 18px;
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+  }
+
+  .brand-text h1 {
+    font-size: 16px;
+    letter-spacing: 0.03em;
+  }
+
+  .brand-text p {
+    font-size: 8.5px;
+    letter-spacing: 0.06em;
   }
 
   /* Mobile Search Bar: Clean & Full Width */
@@ -1318,7 +1355,7 @@ body::before {
   }
 
   .header-search input {
-    font-size: 13px;
+    font-size: 12.5px;
     padding: 8px 14px 8px 36px;
   }
 
@@ -1331,101 +1368,140 @@ body::before {
   /* WhatsApp Pill on Mobile */
   .contact-pill {
     padding: 5px 10px;
-    font-size: 11.5px;
+    font-size: 11px;
+    gap: 4px;
   }
 
   /* Category horizontal scrolling bar on mobile */
   .category-nav-bar {
-    padding: 8px 12px;
+    padding: 6px 10px;
+  }
+
+  .category-nav-inner {
+    gap: 6px;
   }
 
   .category-pill-group {
     gap: 6px;
+    width: 100%;
   }
 
   .category-tab-btn {
-    padding: 6px 12px;
-    font-size: 12px;
+    padding: 5px 12px;
+    font-size: 11.5px;
+    flex-shrink: 0;
   }
 
-  /* Compact Clean Hero on Mobile */
+  /* Compact Clean Hero on Mobile with Translucent Gold Glow */
   .hero-banner {
-    padding: 20px 14px;
+    padding: 16px 12px 20px;
+    background: linear-gradient(180deg, rgba(254, 252, 248, 0.65) 0%, rgba(255, 255, 255, 0.78) 100%);
+  }
+
+  .hero-tag {
+    font-size: 10.5px;
+    padding: 4px 10px;
+    margin-bottom: 8px;
   }
 
   .hero-title {
-    font-size: 24px;
+    font-size: 22px;
     line-height: 1.25;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   .hero-subtitle {
-    font-size: 13px;
-    line-height: 1.5;
-    margin-bottom: 16px;
+    font-size: 12px;
+    line-height: 1.45;
+    margin-bottom: 12px;
   }
 
   .hero-features {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 6px;
   }
 
   .hero-feature-item {
-    padding: 8px 12px;
+    padding: 6px 10px;
+    font-size: 11.5px;
+    border-radius: 8px;
+  }
+
+  .hero-feature-icon {
+    width: 26px;
+    height: 26px;
     font-size: 12px;
   }
 
   .hero-location-card {
-    padding: 16px;
+    padding: 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.92);
   }
 
   /* 2-Column Mobile Product Grid (Myntra / Zara Style) */
   .products-section {
-    padding: 24px 12px;
+    padding: 16px 8px 24px;
   }
 
   .section-header {
-    margin-bottom: 16px;
-    padding-bottom: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
   }
 
   .section-title {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .section-desc {
-    font-size: 12px;
+    font-size: 11px;
   }
 
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 8px;
   }
 
   .product-card {
-    border-radius: 12px;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
   }
 
+  .product-image-container {
+    aspect-ratio: 1 / 1;
+  }
+
+  .badge-category, .badge-stock {
+    font-size: 9px;
+    padding: 2px 5px;
+    top: 5px;
+  }
+  .badge-category { left: 5px; }
+  .badge-stock { right: 5px; }
+
   .product-content {
-    padding: 10px 8px 12px;
+    padding: 8px 6px 10px;
   }
 
   .product-title {
-    font-size: 13px;
-    margin-bottom: 4px;
+    font-size: 11.5px;
+    margin-bottom: 3px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    min-height: 34px;
+    min-height: 30px;
+    line-height: 1.3;
   }
 
   .product-fabric {
-    font-size: 10.5px;
-    padding: 2px 6px;
-    margin-bottom: 6px;
+    font-size: 9.5px;
+    padding: 2px 4px;
+    margin-bottom: 4px;
     max-width: 100%;
+    line-height: 1.2;
   }
 
   .product-colors-preview {
@@ -1435,8 +1511,8 @@ body::before {
   .product-card-footer {
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
-    padding-top: 8px;
+    gap: 6px;
+    padding-top: 6px;
   }
 
   .price-box {
@@ -1444,56 +1520,99 @@ body::before {
   }
 
   .current-price {
-    font-size: 16px;
+    font-size: 14.5px;
     font-weight: 800;
   }
 
   .add-to-cart-btn {
     width: 100%;
     justify-content: center;
-    padding: 8px 10px;
-    font-size: 12px;
+    padding: 7px 6px;
+    font-size: 11px;
     font-weight: 700;
+    border-radius: 6px;
+    white-space: nowrap;
   }
 
   .in-bag-actions {
     width: 100%;
     display: flex;
-    gap: 4px;
+    gap: 3px;
   }
 
   .in-bag-btn {
     flex: 1;
     justify-content: center;
-    padding: 8px 8px;
-    font-size: 11px;
-    letter-spacing: 0.02em;
+    padding: 6px 3px;
+    font-size: 10px;
+    letter-spacing: 0.01em;
+    border-radius: 6px;
+    white-space: nowrap;
+    gap: 3px;
   }
 
   .in-bag-plus-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 15px;
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+    border-radius: 50%;
     flex-shrink: 0;
   }
 
-  /* Floating Bag Button on Mobile: Compact Pill */
-  .floating-bag-button {
-    bottom: 16px;
-    right: 14px;
-    padding: 10px 16px;
+  /* Responsive Form & Checkout Layouts */
+  .checkout-two-col-grid {
+    grid-template-columns: 1fr;
     gap: 10px;
   }
 
+  .payment-options-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .fulfillment-tabs {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .fulfillment-card {
+    padding: 12px;
+  }
+
+  .live-location-box {
+    padding: 12px;
+  }
+
+  .live-location-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .locate-me-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Floating Bag Button on Mobile: Sleek Touch Pill */
+  .floating-bag-button {
+    bottom: 14px;
+    right: 12px;
+    padding: 9px 14px;
+    gap: 8px;
+    border-radius: 9999px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 14px rgba(255, 215, 0, 0.3);
+  }
+
   .floating-bag-label {
-    font-size: 10px;
+    font-size: 9.5px;
   }
 
   .floating-bag-amount {
-    font-size: 12.5px;
+    font-size: 12px;
   }
 
-  /* Product Modal on Mobile (Bottom Sheet Experience) */
+  /* Product Modal & Bottom Sheet on Mobile */
   .modal-overlay {
     padding: 0;
     align-items: flex-end;
@@ -1501,8 +1620,12 @@ body::before {
 
   .modal-content {
     border-radius: 20px 20px 0 0;
-    max-height: 90vh;
+    max-height: 92vh;
     width: 100%;
+  }
+
+  .modal-header-bar {
+    padding: 12px 16px;
   }
 
   /* Footer on Mobile */
@@ -1513,8 +1636,44 @@ body::before {
 
   .footer-bottom {
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     text-align: center;
-    font-size: 11.5px;
+    font-size: 11px;
+  }
+}
+
+/* Extra Compact Phones (iPhone SE / Galaxy Fold / 360px screens) */
+@media (max-width: 360px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .product-image-container {
+    aspect-ratio: 4 / 3;
+  }
+
+  .product-title {
+    font-size: 13px;
+  }
+
+  .current-price {
+    font-size: 15.5px;
+  }
+
+  .add-to-cart-btn {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  .in-bag-btn {
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+
+  .in-bag-plus-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 15px;
   }
 }
