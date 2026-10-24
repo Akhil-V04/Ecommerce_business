@@ -1,0 +1,22 @@
+{
+  "name": "srinivasa-silks",
+  "version": "1.0.0",
+  "description": "Srinivasa Silks E-Commerce Store & Hyderabad Delivery Management",
+  "scripts": {
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "dev": "node run-all.js",
+    "start": "cd server && npm start",
+    "install:all": "cd server && npm install && cd ../client && npm install"
+  },
+  "keywords": [
+    "saree",
+    "silk",
+    "ecommerce",
+    "hyderabad",
+    "porter",
+    "rapido"
+  ],
+  "author": "Srinivasa Silks",
+  "license": "ISC"
+}

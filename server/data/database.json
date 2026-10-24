@@ -1,0 +1,158 @@
+{
+  "products": [
+    {
+      "id": "prod-1",
+      "name": "Kanchipuram Pure Silk Bridal Saree",
+      "category": "Sarees",
+      "price": 12999,
+      "originalPrice": 16500,
+      "fabric": "100% Pure Mulberry Silk with Gold Zari Pallu",
+      "description": "Authentic handwoven Kanchipuram silk saree in royal crimson red and antique gold zari weave. Features traditional peacock and floral border motifs, complete with blouse piece.",
+      "colors": [
+        "Royal Crimson Red",
+        "Antique Gold",
+        "Bridal Maroon"
+      ],
+      "inStock": true,
+      "stockQuantity": 8,
+      "imageUrl": "/products/kanchipuram_saree.jpg",
+      "featured": true,
+      "createdAt": "2026-10-20T10:00:00.000Z"
+    },
+    {
+      "id": "prod-2",
+      "name": "Royal Banarasi Silk Brocade Saree",
+      "category": "Sarees",
+      "price": 8499,
+      "originalPrice": 11200,
+      "fabric": "Pure Katan Silk with Kadwa Brocade Weave",
+      "description": "Exquisite Banarasi silk saree in royal peacock blue adorned with dense silver-gold floral booti work and a grand rich pallu. Ideal for receptions and festivals.",
+      "colors": [
+        "Peacock Blue",
+        "Emerald Green",
+        "Royal Navy"
+      ],
+      "inStock": true,
+      "stockQuantity": 12,
+      "imageUrl": "/products/banarasi_saree.jpg",
+      "featured": true,
+      "createdAt": "2026-10-21T11:30:00.000Z"
+    },
+    {
+      "id": "prod-3",
+      "name": "Premium 2x2 Cotton Blouse Lining (1 Meter)",
+      "category": "Linings",
+      "price": 120,
+      "originalPrice": 150,
+      "fabric": "100% Combed 2x2 Rubia Cotton (Color-Fast & Pre-shrunk)",
+      "description": "Ultra-soft, skin-friendly 2x2 cotton lining specially curated for luxury silk sarees and designer blouse tailoring. Highly breathable, sweat-absorbent and shrinkage-proof.",
+      "colors": [
+        "Crimson Red",
+        "Maroon",
+        "Emerald Green",
+        "Royal Blue",
+        "Golden Yellow",
+        "Jet Black",
+        "Ivory White"
+      ],
+      "inStock": true,
+      "stockQuantity": 150,
+      "imageUrl": "/products/linings_fabrics.jpg",
+      "featured": true,
+      "createdAt": "2026-10-22T09:15:00.000Z"
+    },
+    {
+      "id": "prod-4",
+      "name": "Pure Raw Silk Fabric Cut-Piece (Blouse/Kurti Material)",
+      "category": "Silks",
+      "price": 650,
+      "originalPrice": 850,
+      "fabric": "100% Pure Raw Silk with Natural Slub Texture",
+      "description": "Rich textured pure raw silk fabric cut piece (1 Meter) suitable for bespoke blouse stitching, lehenga cholis, or kurtis. Gives a stiff, royal structure.",
+      "colors": [
+        "Festive Gold",
+        "Wine Burgundy",
+        "Deep Emerald",
+        "Rani Pink"
+      ],
+      "inStock": true,
+      "stockQuantity": 35,
+      "imageUrl": "/products/raw_silks_material.jpg",
+      "featured": true,
+      "createdAt": "2026-10-22T14:40:00.000Z"
+    },
+    {
+      "id": "prod-5",
+      "name": "Premium Stitched Cotton Saree Petticoat (7-Panel)",
+      "category": "Petticoats",
+      "price": 280,
+      "originalPrice": 380,
+      "fabric": "100% Breathable Heavy Cotton (Stitched with Drawstring)",
+      "description": "Ready-to-wear stitched 7-panel cotton petticoat/underskirt. Tailored with wide pleats for comfortable walking and heavy flare support for silk sarees.",
+      "colors": [
+        "Crimson Red",
+        "Navy Blue",
+        "Beige Sand",
+        "Deep Green",
+        "Black",
+        "Off White"
+      ],
+      "inStock": true,
+      "stockQuantity": 60,
+      "imageUrl": "/products/petticoats_wear.jpg",
+      "featured": true,
+      "createdAt": "2026-10-23T12:00:00.000Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "SS-HYD-2368",
+      "customerName": "Akhil Rao",
+      "customerPhone": "7013311862",
+      "customerAltPhone": "",
+      "fulfillmentType": "hyderabad_delivery",
+      "deliveryAddress": "Villa 18, Road No. 36, Jubilee Hills, Hyderabad",
+      "deliveryLandmark": "Near Peddamma Temple Metro",
+      "pinCode": "500003",
+      "liveLocation": null,
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "Kanchipuram Pure Silk Bridal Saree",
+          "category": "Sarees",
+          "price": 12999,
+          "quantity": 1,
+          "selectedColor": "Royal Crimson Red",
+          "imageUrl": "/products/kanchipuram_saree.jpg"
+        },
+        {
+          "productId": "prod-3",
+          "name": "Matching 2x2 Cotton Blouse Lining (for Kanchipuram Pure Silk Bridal Saree)",
+          "category": "Linings",
+          "price": 120,
+          "quantity": 1,
+          "selectedColor": "Royal Crimson Red",
+          "imageUrl": "/products/linings_fabrics.jpg"
+        }
+      ],
+      "subtotal": 13119,
+      "deliveryFee": 0,
+      "totalAmount": 13119,
+      "paymentMethod": "pay_on_delivery",
+      "paymentStatus": "Pending",
+      "orderStatus": "Pending",
+      "deliveryNotes": "",
+      "createdAt": "2026-10-24T10:23:05.058Z"
+    }
+  ],
+  "settings": {
+    "storeName": "Srinivasa Silks",
+    "tagline": "Authentic Kanchipuram Sarees, Pure Silks, Linings & Petticoats",
+    "phone": "+91 70133 11862",
+    "storeAddress": "Srinivasa Silks, Prashanti Nagar, Moula Ali, Ward 143 Tarnaka, Hyderabad, Telangana - 500017",
+    "mapsUrl": "https://maps.app.goo.gl/6i7ESPtwhNTuSAEX8",
+    "coordinates": { "latitude": 17.443697, "longitude": 78.543449 },
+    "deliveryNote": "We deliver across Hyderabad only via Porter / Rapido. Delivery fare charged as per app.",
+    "adminPasscode": "admin123"
+  }
+}
