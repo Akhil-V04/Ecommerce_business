@@ -323,10 +323,10 @@ app.get('/api/db-status', async (req, res) => {
 export default app;
 export { app };
 
-// Start Server locally
-if (!process.env.VERCEL) {
+// Start Server
+if (process.env.PORT || !process.env.VERCEL) {
   app.listen(PORT, () => {
-    console.log(`✨ Srinivasa Silks Backend Server is running at http://localhost:${PORT}`);
+    console.log(`✨ Srinivasa Silks Backend Server is running on port ${PORT}`);
     console.log(`🛍️ Products API: http://localhost:${PORT}/api/products`);
     console.log(`📦 Orders API:   http://localhost:${PORT}/api/orders`);
   });
