@@ -24,13 +24,6 @@
       }
     },
     {
-      "source": "/admin(.*)",
-      "destination": {
-        "service": "client",
-        "path": "/index.html"
-      }
-    },
-    {
       "source": "/(.*)",
       "destination": {
         "service": "client"
