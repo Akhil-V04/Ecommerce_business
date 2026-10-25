@@ -209,7 +209,7 @@ export default function App() {
                     <div className="hero-feature-icon">🛵</div>
                     <div>
                       <div>Hyderabad Delivery</div>
-                      <span style={{ fontSize: '11.5px', color: '#777', fontWeight: 400 }}>Via Rapido / Porter</span>
+                      <span style={{ fontSize: '11.5px', color: '#777', fontWeight: 400 }}>Via Rapido / Porter (Charges apply)</span>
                     </div>
                   </div>
 
@@ -242,13 +242,13 @@ export default function App() {
                   Srinivasa Silks Showroom
                 </h3>
                 <p style={{ fontSize: '13px', color: '#555', marginBottom: '14px', lineHeight: 1.5 }}>
-                  Prashanti Nagar, Moula Ali, Ward 143 Tarnaka, Hyderabad, Telangana - 500017.
+                  Lalapet, Secunderabad, Hyderabad, Telangana - 500017.
                 </p>
 
                 <div style={{ background: '#fdfbf7', border: '1px solid #eee8d5', padding: '12px', borderRadius: '10px', fontSize: '12.5px', marginBottom: '16px' }}>
                   <strong style={{ color: '#8a1528' }}>🛵 Hyderabad Delivery Service:</strong>
                   <div style={{ color: '#555', marginTop: '2px' }}>
-                    Need urgent sarees, linings, or petticoats? Place your order with live GPS location and we dispatch via Porter or Rapido directly to your doorstep.
+                    Need urgent sarees, linings, or petticoats? Place your order with live GPS location and we dispatch via Porter or Rapido directly to your doorstep. <em>Delivery charges may apply on Rapido or Porter</em>.
                   </div>
                 </div>
 

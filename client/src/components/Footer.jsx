@@ -24,7 +24,7 @@ export default function Footer({ onSelectCategory, onNavigate }) {
             Curating genuine handwoven Kanchipuram bridal pattu sarees, Banarasi brocades, premium 2x2 cotton blouse linings, pure raw silk fabrics, and ready-to-wear stitched petticoats.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: '#181716', fontWeight: 600 }}>
-            <span>⚡ Swift Hyderabad Delivery via Rapido & Porter</span>
+            <span>⚡ Swift Hyderabad Delivery via Rapido & Porter (Delivery charges may apply)</span>
           </div>
         </div>
 
@@ -86,7 +86,7 @@ export default function Footer({ onSelectCategory, onNavigate }) {
               <Truck size={16} style={{ color: '#b8860b', flexShrink: 0, marginTop: '2px' }} />
               <div>
                 <strong>City Delivery:</strong><br />
-                Direct doorstep dispatch via Rapido & Porter apps in Hyderabad.
+                Direct doorstep dispatch via Rapido & Porter apps in Hyderabad (delivery charges may apply).
               </div>
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
@@ -109,7 +109,7 @@ export default function Footer({ onSelectCategory, onNavigate }) {
               <MapPin size={16} style={{ color: '#b8860b', flexShrink: 0, marginTop: '2px' }} />
               <div>
                 <strong>Srinivasa Silks Showroom</strong><br />
-                Prashanti Nagar, Moula Ali, Ward 143 Tarnaka,<br />
+                Lalapet, Secunderabad,<br />
                 Hyderabad, Telangana - 500017.<br />
                 <a
                   href="https://maps.app.goo.gl/6i7ESPtwhNTuSAEX8"
@@ -135,7 +135,7 @@ export default function Footer({ onSelectCategory, onNavigate }) {
           © {new Date().getFullYear()} <strong>Srinivasa Silks</strong>. All Rights Reserved. Crafted for Hyderabad Silk Connoisseurs.
         </div>
         <div style={{ display: 'flex', gap: '18px', alignItems: 'center' }}>
-          <span style={{ fontSize: '12px', color: '#999' }}>Hyderabad Delivery via Rapido / Porter</span>
+          <span style={{ fontSize: '12px', color: '#999' }}>Hyderabad Delivery via Rapido / Porter (Delivery charges may apply)</span>
         </div>
       </div>
     </footer>

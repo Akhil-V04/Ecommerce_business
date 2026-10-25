@@ -214,7 +214,7 @@ export default function ProductModal({
                   <Truck size={16} style={{ color: '#b8860b' }} />
                   <div>
                     <strong>Hyderabad Delivery</strong>
-                    <div style={{ color: '#777' }}>Via Rapido / Porter</div>
+                    <div style={{ color: '#777' }}>Via Rapido / Porter (Charges apply)</div>
                   </div>
                 </div>
                 <div style={{ background: '#f8f8f8', padding: '10px 12px', borderRadius: '8px', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>

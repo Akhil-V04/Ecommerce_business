@@ -25,7 +25,7 @@ export default function Header({
       <div className="top-announcement-bar">
         <div className="top-announcement-text">
           <span className="top-badge-hyd">Hyderabad Only</span>
-          <span>Fast Doorstep Delivery via <strong>Rapido / Porter</strong> or Free <strong>Store Pickup</strong></span>
+          <span>Fast Doorstep Delivery via <strong>Rapido / Porter</strong> (Delivery charges may apply) or Free <strong>Store Pickup</strong></span>
           <span style={{ opacity: 0.6 }}>•</span>
           <span>No Login Required to Order!</span>
         </div>

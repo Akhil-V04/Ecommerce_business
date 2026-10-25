@@ -881,7 +881,7 @@ Items: ${order.items.length} items (Total: ₹${order.totalAmount})`;
                           <span style={{ color: '#666' }}>Method:</span>
                           <strong>
                             {order.paymentMethod === 'upi_qr'
-                              ? '⚡ Instant UPI QR (7013311862@ybl)'
+                              ? '⚡ Instant UPI QR (22101979sandhya@oksbi)'
                               : (order.paymentMethod === 'pay_on_delivery' ? '💵 Pay on Delivery' : '🏪 Pay at Showroom')}
                           </strong>
                         </div>
@@ -1215,7 +1215,7 @@ Items: ${order.items.length} items (Total: ₹${order.totalAmount})`;
                   </div>
                 )}
                 <div style={{ marginTop: '8px', padding: '8px 10px', background: '#f9f8f5', borderRadius: '8px', fontSize: '12.5px', border: '1px solid #eee' }}>
-                  <span>Payment: <strong>{inspectedOrder.paymentMethod === 'upi_qr' ? '⚡ UPI QR (7013311862@ybl)' : (inspectedOrder.paymentMethod === 'pay_at_store' ? '🏪 Pay at Showroom' : '💵 Pay on Delivery')}</strong></span>
+                  <span>Payment: <strong>{inspectedOrder.paymentMethod === 'upi_qr' ? '⚡ UPI QR (22101979sandhya@oksbi)' : (inspectedOrder.paymentMethod === 'pay_at_store' ? '🏪 Pay at Showroom' : '💵 Pay on Delivery')}</strong></span>
                   {' • '}
                   <span style={{ color: inspectedOrder.paymentStatus?.includes('Paid') ? '#15803d' : '#b45309', fontWeight: 700 }}>
                     {inspectedOrder.paymentStatus || 'Pending'}

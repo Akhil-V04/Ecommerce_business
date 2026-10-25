@@ -27,7 +27,7 @@ export default function CheckoutModal({
   const [upiUtr, setUpiUtr] = useState('');
   const [copiedUpi, setCopiedUpi] = useState(false);
 
-  const storeUpiId = '7013311862@ybl';
+  const storeUpiId = '22101979sandhya@oksbi';
   const upiUri = `upi://pay?pa=${encodeURIComponent(storeUpiId)}&pn=${encodeURIComponent('Srinivasa Silks')}&am=${encodeURIComponent(subtotal)}&cu=INR&tn=${encodeURIComponent('Srinivasa Silks Order')}`;
 
   const handleCopyUpiId = () => {
@@ -191,8 +191,7 @@ export default function CheckoutModal({
 
     const text = `*New Order Placed at Srinivasa Silks!*
 *Order ID:* ${placedOrder.id}
-*Customer:* ${placedOrder.customerName} (${placedOrder.customerPhone})
-*Fulfillment:* ${placedOrder.fulfillmentType === 'store_pickup' ? '🏪 Store Pickup at Secunderabad' : '🛵 Hyderabad Delivery via Rapido/Porter'}
+*Fulfillment:* ${placedOrder.fulfillmentType === 'store_pickup' ? '🏪 Store Pickup at Lalapet, Secunderabad' : '🛵 Hyderabad Delivery via Rapido/Porter (Delivery charges may apply)'}
 ${placedOrder.fulfillmentType === 'hyderabad_delivery' ? `*Address:* ${placedOrder.deliveryAddress}\n*Landmark:* ${placedOrder.deliveryLandmark || 'N/A'}${locationText}\n` : ''}
 *Total Items Amount:* ₹${placedOrder.totalAmount}
 ${paymentDetails}
@@ -265,7 +264,7 @@ Please confirm my order and share dispatch timing!`;
 
               {placedOrder.fulfillmentType === 'hyderabad_delivery' ? (
                 <div style={{ background: '#eef5fc', border: '1px solid #c7e0fa', borderRadius: '10px', padding: '12px 16px', fontSize: '13px', color: '#0d47a1', marginBottom: '20px', textAlign: 'left' }}>
-                  <strong>🛵 Hyderabad Delivery Note:</strong> Our showroom team will pack your sarees carefully. We will book a <strong>Rapido / Porter</strong> rider to your address/location. The rider delivery charge (usually ₹60-₹160 depending on your distance from Secunderabad) can be paid directly to the rider upon arrival.
+                  <strong>🛵 Hyderabad Delivery Note:</strong> Our showroom team will pack your sarees carefully. We will book a <strong>Rapido / Porter</strong> rider to your address/location. <em>Delivery charges may apply on Rapido or Porter</em> (usually ₹60-₹160 depending on your distance from Secunderabad), payable directly to the rider upon arrival.
                 </div>
               ) : (
                 <div style={{ background: '#eef8f2', border: '1px solid #c8e6c9', borderRadius: '10px', padding: '12px 16px', fontSize: '13px', color: '#1b5e20', marginBottom: '20px', textAlign: 'left' }}>
@@ -323,7 +322,7 @@ Please confirm my order and share dispatch timing!`;
                       Delivered via <strong>Rapido / Porter</strong> bike or auto directly to your doorstep in Hyderabad.
                     </p>
                     <span style={{ fontSize: '11px', color: '#966708', fontWeight: 700, marginTop: '4px' }}>
-                      ⚡ Rapido / Porter on-demand delivery
+                      ⚡ Rapido / Porter delivery (Delivery charges may apply)
                     </span>
                   </div>
 
@@ -495,7 +494,7 @@ Please confirm my order and share dispatch timing!`;
                     <ul style={{ paddingLeft: '18px', marginTop: '4px', lineHeight: 1.5 }}>
                       <li>We deliver exclusively within the <strong>Hyderabad & Secunderabad</strong> city limits.</li>
                       <li>We use on-demand delivery apps (<strong>Rapido Bike / Porter Auto / Tempo</strong>) for fast direct dispatch.</li>
-                      <li>Estimated delivery fare (₹60 - ₹180 based on distance from our Secunderabad shop) is paid to the rider or added upon dispatch.</li>
+                      <li><strong>Delivery charges may apply on Rapido or Porter</strong> (usually ₹60 - ₹180 based on distance from our Secunderabad showroom), payable directly to the rider upon delivery.</li>
                     </ul>
                   </div>
                 </div>
@@ -733,7 +732,7 @@ Please confirm my order and share dispatch timing!`;
                     {fulfillmentType === 'store_pickup' ? (
                       <strong style={{ color: '#1f7a3f' }}>FREE (Store Pickup)</strong>
                     ) : (
-                      <span style={{ color: '#b8860b', fontSize: '13px' }}>As per Rapido/Porter meter</span>
+                      <span style={{ color: '#b8860b', fontSize: '12.5px', fontWeight: 600 }}>Delivery charges may apply on Rapido / Porter</span>
                     )}
                   </span>
                 </div>

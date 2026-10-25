@@ -100,7 +100,7 @@ export default function CartDrawer({
               <MapPin size={16} style={{ color: '#b8860b', flexShrink: 0 }} />
               <div>
                 <strong>Hyderabad Delivery or Store Pickup</strong>
-                <div style={{ color: '#666' }}>We deliver in Hyderabad via Porter/Rapido or you can collect at shop.</div>
+                <div style={{ color: '#666' }}>We deliver in Hyderabad via Rapido/Porter (delivery charges may apply) or you can collect at shop.</div>
               </div>
             </div>
 
