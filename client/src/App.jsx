@@ -399,7 +399,7 @@ export default function App() {
       />
 
       {/* Floating Bag Button (Bottom Right) */}
-      {currentView === 'store' && !isCartOpen && !isCheckoutOpen && (
+      {currentView === 'store' && !isCartOpen && !isCheckoutOpen && !selectedProduct && (
         <button
           className="floating-bag-button"
           onClick={() => setIsCartOpen(true)}

@@ -642,8 +642,8 @@ Please confirm my order and share dispatch timing!`;
                     </div>
 
                     {/* QR Code and Scan Section */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', background: '#ffffff', border: '1px solid #ebd9b8', padding: '12px', borderRadius: '10px', flexWrap: 'wrap' }}>
-                      <div style={{ background: '#ffffff', padding: '8px', borderRadius: '8px', border: '1px solid #eee', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto' }}>
+                    <div className="checkout-upi-qr-card">
+                      <div className="checkout-upi-qr-img-box">
                         <QRCodeSVG
                           value={upiUri}
                           size={140}
@@ -654,7 +654,7 @@ Please confirm my order and share dispatch timing!`;
                         />
                       </div>
 
-                      <div style={{ flex: 1, minWidth: '200px' }}>
+                      <div className="checkout-upi-qr-details">
                         <div style={{ fontSize: '13px', fontWeight: 700, color: '#181716' }}>
                           Scan with PhonePe / GPay / Paytm
                         </div>
@@ -662,7 +662,7 @@ Please confirm my order and share dispatch timing!`;
                           Scan this QR code with any UPI app on another phone to pay exact <strong>₹{subtotal.toLocaleString('en-IN')}</strong> directly to Srinivasa Silks.
                         </div>
 
-                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#f5f3ef', padding: '6px 10px', borderRadius: '6px', fontSize: '12px' }}>
+                        <div className="checkout-upi-id-pill">
                           <span>UPI ID: <strong>{storeUpiId}</strong></span>
                           <button
                             type="button"
@@ -726,13 +726,13 @@ Please confirm my order and share dispatch timing!`;
                   <span style={{ color: '#666' }}>Items ({cartItems.length}):</span>
                   <span>₹{subtotal.toLocaleString('en-IN')}</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', marginBottom: '8px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '14px', marginBottom: '8px', flexWrap: 'wrap', gap: '4px' }}>
                   <span style={{ color: '#666' }}>Delivery Charge:</span>
-                  <span>
+                  <span style={{ textAlign: 'right', flex: 1, minWidth: '180px' }}>
                     {fulfillmentType === 'store_pickup' ? (
                       <strong style={{ color: '#1f7a3f' }}>FREE (Store Pickup)</strong>
                     ) : (
-                      <span style={{ color: '#b8860b', fontSize: '12.5px', fontWeight: 600 }}>Delivery charges may apply on Rapido / Porter</span>
+                      <span style={{ color: '#b8860b', fontSize: '12px', fontWeight: 600 }}>Delivery charges may apply on Rapido / Porter</span>
                     )}
                   </span>
                 </div>

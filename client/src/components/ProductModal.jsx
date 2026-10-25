@@ -227,7 +227,7 @@ export default function ProductModal({
               </div>
 
               {/* Action Buttons */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: 'auto' }}>
+              <div className="modal-action-buttons">
                 <button
                   className="add-to-cart-btn"
                   style={{
