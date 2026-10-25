@@ -78,7 +78,7 @@ app.post('/api/admin/login', async (req, res) => {
   try {
     const { passcode } = req.body;
     const settings = await db.getSettings();
-    const correctPass = process.env.ADMIN_PASSCODE || settings.adminPasscode || 'admin123';
+    const correctPass = process.env.ADMIN_PASSCODE || settings.adminPasscode || '22101979';
 
     if (passcode === correctPass) {
       // Simple signed token/session representation

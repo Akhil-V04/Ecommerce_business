@@ -86,7 +86,7 @@ class DatabaseAdapter {
               upiId: "22101979sandhya@oksbi",
               storeAddress: "Srinivasa Silks, Lalapet, Secunderabad, Hyderabad - 500017",
               deliveryNote: "We deliver across Hyderabad only via Porter / Rapido. Delivery charges may apply on Rapido or Porter.",
-              adminPasscode: "admin123"
+              adminPasscode: "22101979"
             }
           };
           fs.writeFileSync(DB_FILE, JSON.stringify(initialData, null, 2), 'utf-8');
