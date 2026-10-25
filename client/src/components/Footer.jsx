@@ -134,8 +134,32 @@ export default function Footer({ onSelectCategory, onNavigate }) {
         <div>
           © {new Date().getFullYear()} <strong>Srinivasa Silks</strong>. All Rights Reserved. Crafted for Hyderabad Silk Connoisseurs.
         </div>
-        <div style={{ display: 'flex', gap: '18px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
           <span style={{ fontSize: '12px', color: '#999' }}>Hyderabad Delivery via Rapido / Porter (Delivery charges may apply)</span>
+          {onNavigate && (
+            <button
+              onClick={() => onNavigate('admin')}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#78716c',
+                fontSize: '11.5px',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                padding: '2px 6px',
+                borderRadius: '4px',
+                textDecoration: 'none',
+                transition: 'color 0.2s ease'
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#b8860b')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#78716c')}
+              title="Showroom Staff Portal & Order Dispatch Console"
+            >
+              🔒 Staff Login
+            </button>
+          )}
         </div>
       </div>
     </footer>
