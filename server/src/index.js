@@ -20,9 +20,15 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Ensure upload directory exists
-const uploadsDir = path.join(__dirname, '..', 'public', 'uploads');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+const uploadsDir = process.env.VERCEL
+  ? path.join('/tmp', 'uploads')
+  : path.join(__dirname, '..', 'public', 'uploads');
+try {
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  }
+} catch (e) {
+  // Ignore in serverless if directory creation is restricted
 }
 app.use('/uploads', express.static(uploadsDir));
 
@@ -313,9 +319,15 @@ app.get('/api/db-status', async (req, res) => {
   }
 });
 
-// Start Server
-app.listen(PORT, () => {
-  console.log(`✨ Srinivasa Silks Backend Server is running at http://localhost:${PORT}`);
-  console.log(`🛍️ Products API: http://localhost:${PORT}/api/products`);
-  console.log(`📦 Orders API:   http://localhost:${PORT}/api/orders`);
-});
+// Export app for Vercel serverless functions
+export default app;
+export { app };
+
+// Start Server locally
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`✨ Srinivasa Silks Backend Server is running at http://localhost:${PORT}`);
+    console.log(`🛍️ Products API: http://localhost:${PORT}/api/products`);
+    console.log(`📦 Orders API:   http://localhost:${PORT}/api/orders`);
+  });
+}

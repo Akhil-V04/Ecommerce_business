@@ -7,8 +7,11 @@ import { initialProducts, initialOrders } from './seedData.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const DATA_DIR = path.join(__dirname, '..', '..', 'data');
-const DB_FILE = path.join(DATA_DIR, 'database.json');
+const isVercel = !!process.env.VERCEL;
+const BUNDLED_DATA_DIR = path.join(__dirname, '..', '..', 'data');
+const BUNDLED_DB_FILE = path.join(BUNDLED_DATA_DIR, 'database.json');
+const DATA_DIR = isVercel ? path.join('/tmp', 'data') : BUNDLED_DATA_DIR;
+const DB_FILE = isVercel ? path.join(DATA_DIR, 'database.json') : BUNDLED_DB_FILE;
 
 class DatabaseAdapter {
   constructor() {
@@ -64,34 +67,50 @@ class DatabaseAdapter {
 
     // Default: Robust local JSON file-based database
     this.mode = 'json';
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true });
-    }
-    if (!fs.existsSync(DB_FILE)) {
-      const initialData = {
-        products: initialProducts,
-        orders: initialOrders,
-        settings: {
-          storeName: "Srinivasa Silks",
-          tagline: "Authentic Kanchipuram Sarees, Pure Silks, Linings & Petticoats",
-          phone: "+91 70133 11862",
-          upiId: "22101979sandhya@oksbi",
-          storeAddress: "Srinivasa Silks, Lalapet, Secunderabad, Hyderabad - 500017",
-          deliveryNote: "We deliver across Hyderabad only via Porter / Rapido. Delivery fare charged as per app.",
-          adminPasscode: "admin123"
+    try {
+      if (!fs.existsSync(DATA_DIR)) {
+        fs.mkdirSync(DATA_DIR, { recursive: true });
+      }
+      if (!fs.existsSync(DB_FILE)) {
+        if (isVercel && fs.existsSync(BUNDLED_DB_FILE)) {
+          fs.copyFileSync(BUNDLED_DB_FILE, DB_FILE);
+          console.log('✓ Cloned bundled database to /tmp for Vercel serverless execution:', DB_FILE);
+        } else {
+          const initialData = {
+            products: initialProducts,
+            orders: initialOrders,
+            settings: {
+              storeName: "Srinivasa Silks",
+              tagline: "Authentic Kanchipuram Sarees, Pure Silks, Linings & Petticoats",
+              phone: "+91 70133 11862",
+              upiId: "22101979sandhya@oksbi",
+              storeAddress: "Srinivasa Silks, Lalapet, Secunderabad, Hyderabad - 500017",
+              deliveryNote: "We deliver across Hyderabad only via Porter / Rapido. Delivery charges may apply on Rapido or Porter.",
+              adminPasscode: "admin123"
+            }
+          };
+          fs.writeFileSync(DB_FILE, JSON.stringify(initialData, null, 2), 'utf-8');
+          console.log('✓ Initialized embedded database with seed sarees and orders at:', DB_FILE);
         }
-      };
-      fs.writeFileSync(DB_FILE, JSON.stringify(initialData, null, 2), 'utf-8');
-      console.log('✓ Initialized embedded database with seed sarees and orders at:', DB_FILE);
-    } else {
-      console.log('✓ Connected to local embedded database at:', DB_FILE);
+      } else {
+        console.log('✓ Connected to local embedded database at:', DB_FILE);
+      }
+    } catch (e) {
+      console.warn('⚠️ Could not initialize filesystem database, operating in fallback mode:', e.message);
     }
   }
 
   readJson() {
     try {
-      const raw = fs.readFileSync(DB_FILE, 'utf-8');
-      return JSON.parse(raw);
+      if (fs.existsSync(DB_FILE)) {
+        const raw = fs.readFileSync(DB_FILE, 'utf-8');
+        return JSON.parse(raw);
+      }
+      if (fs.existsSync(BUNDLED_DB_FILE)) {
+        const raw = fs.readFileSync(BUNDLED_DB_FILE, 'utf-8');
+        return JSON.parse(raw);
+      }
+      return { products: initialProducts, orders: initialOrders, settings: {} };
     } catch (err) {
       console.error('Error reading JSON DB:', err);
       return { products: initialProducts, orders: initialOrders, settings: {} };
